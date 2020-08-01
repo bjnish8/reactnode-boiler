@@ -1,8 +1,21 @@
 version: "3"
 services:
-        frontend:
-                container_name: react_app
-                build:
-                        context: ./psn-front
-                        dockerfile: Dockerfile
-                image: 
+  frontend:
+    build: ./psn-front
+    volumes:                 
+      - ./frontend:/app/frontend
+      - /app/node_modules
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+    stdin_open: true
+
+  backend:
+    build: ./psn-back
+    volumes:
+      - ./backend:/app/backend
+    ports:
+      - "5000:5000"
+    stdin_open: true
+    tty: true
