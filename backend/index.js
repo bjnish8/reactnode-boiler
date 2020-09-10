@@ -9,12 +9,9 @@ app.options('*', cors());
 
 const sequelize = new Sequelize(process.env.DATABASE_URL)
 
-setTimeout(() => {
 sequelize.authenticate()
-.then(() =>  console.log('Connection has been established successfully.'))
-.catch(error => console.error('Unable to connect to the database!', error))
-}, 2000)
-  
+.then(() =>  console.log('Database connection established.'))
+.catch(error => console.error('Unable to connect to the database!', error))  
 
 app.get('/', (req, res) => res.send("Home Page"))
 

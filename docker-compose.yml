@@ -18,7 +18,7 @@ services:
   frontend:
     build: 
       context: ./frontend
-      dockerfile: ${DFILE}
+      dockerfile: prod.Dockerfile
     volumes:                 
       - ./frontend:/app/frontend
       - /app/frontend/node_modules
@@ -47,8 +47,6 @@ services:
       NODE_ENV: ${NODE_ENV}
       PORT: ${NODE_PORT}
       RANDOM: random
-    links:
-      - db:db
 
 volumes:
   pgdata:
