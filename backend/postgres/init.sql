@@ -1,0 +1,3 @@
+CREATE DATABASE psn;
+CREATE USER psnroot WITH PASSWORD 'psnroot';
+GRANT ALL PRIVILEGES ON DATABASE "psn" to psnroot;
