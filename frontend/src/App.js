@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Page1, Page2 } from "./views";
 import BaseRouter from "./routes";
+import { connect } from 'react-redux';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
-const App = () => {
+const App = (props) => {
   const [data, setData] = useState("what is this");
   useEffect(() => {
     axios({
@@ -17,9 +17,23 @@ const App = () => {
   });
   return (
     <div className="App">
-      <BaseRouter />
+      <BaseRouter {...props}/>
     </div>
   );
 };
 
-export default App;
+const mapStateToProps = state => {
+  return {
+      isAuthenticated: state.user && Object.keys(state.user).length > 0,
+  }
+}
+
+
+const mapDispatchToProps = dispatch => {
+  return {
+      onTrySignIn: () => dispatch(() => {})
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
+
