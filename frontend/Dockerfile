@@ -1,15 +1,30 @@
-FROM node:latest
+FROM node:alpine as builder
 
 RUN mkdir -p /app/frontend
 
 WORKDIR /app/frontend 
 
-COPY package.json /app/frontend
+COPY package.json ./
 
 RUN yarn install
 
-COPY . /app/frontend/
+COPY . .
 
-EXPOSE 3000
+RUN npm run build
 
-CMD ["yarn", "start"]
+
+FROM nginx:alpine
+
+#!/bin/sh
+
+
+## Remove default nginx index page
+RUN rm -rf /usr/share/nginx/html/*
+
+# Copy from the stahg 1
+COPY --from=builder /app/frontend/build /usr/share/nginx/html
+COPY ./nginx/nginx.conf /etc/nginx/nginx.conf
+
+# EXPOSE 3000 80
+
+ENTRYPOINT ["nginx", "-g", "daemon off;"]
